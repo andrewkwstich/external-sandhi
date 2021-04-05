@@ -45,7 +45,8 @@ def vowel_lengthen(vowel):
   raise Exception('Unable to find equivalent long vowel')
 
 def same_vplace(vowel_1, vowel_2):
-  #Returns True iff vowel_1 and vowel_2 are vowels in the SOUNDS dictionary with the same Place of Articulation
+  '''Returns True iff vowel_1 and vowel_2 are vowels in the SOUNDS dictionary with the same Place of Articulation
+  '''
   vowel_1_features = SOUNDS[vowel_1]
   vowel_2_features = SOUNDS[vowel_2]
 
@@ -62,9 +63,7 @@ class Rule:
   
   def apply(self, pair):
     if not self.applies_to(pair):
-      print ('Inside if')
       raise Exception('Expected `pair` to satisfy applies_to condition. Did you call applies_to beforehand?')
-    print ('outside if')
     return pair
 
 
@@ -471,10 +470,15 @@ class PalatalizationBeforeZ(Rule):
 
     first_phoneme = tokens[0][-1]
 
-    return tokens[0][:-1] + poa_assimilate(first_phoneme, 'z') + ' w' + tokens[1][1:]
+    if first_phoneme != 'n':
+      return tokens[0][:-1] + poa_assimilate(first_phoneme, 'z') + ' w' + tokens[1][1:]
+
+    else:
+      return tokens[0][:-1] + 'J z' + tokens[1][1:]
 
 class DentalLateralization(Rule):
-  #If the first word ends with a dental and the second word starts with 'l', the dental is replaced with 'l'.
+  '''If the first word ends with a dental and the second word starts with 'l', the dental is replaced with 'l'.
+  '''
   def applies_to(self, pair):
     tokens = pair.split(' ')
 
@@ -506,6 +510,9 @@ class DentalPOAAssimilation(Rule): #as written, has to apply after consonant_voi
 
     first_phoneme = tokens[0][-1]
     second_phoneme = tokens[1][0]
+
+    if first_phoneme == 'n':
+      return first_phoneme in DENTALS and second_phoneme in CORONALS and second_phoneme in STOPS and second_phoneme not in VOICED
 
     return first_phoneme in DENTALS and second_phoneme in CORONALS and second_phoneme in STOPS
 
@@ -557,7 +564,9 @@ class VisargaPOAAssimilation(Rule):
     return tokens[0][:-1] + poa_assimilate('H', second_phoneme) + ' ' + tokens[1]
 
 class Debuccalization(Rule):
-  #If the first word ends with a stop and the second word begins with 'h', the 'h' becomes the aspirated equivalent of the stop.
+  '''
+  If the first word ends with a stop and the second word begins with 'h', the 'h' becomes the aspirated equivalent of the stop.
+  '''
   def applies_to(self, pair):
     tokens = pair.split(' ')
 
@@ -605,19 +614,18 @@ Rules = [
   Anusvara(),
   PalatalizationBeforeZ(),
   DentalLateralization(),
-  DentalPOAAssimilation(),
   ConsonantVoicing(),
+  DentalPOAAssimilation(),
   Nasalization(),
   VisargaPOAAssimilation(),
   Debuccalization()
 ]
 
 class FinalRAndSBecomeVisarga:
-  #A final R or S and the end of a string becomes visarga.
+  '''A final R or S and the end of a string becomes visarga.
+  '''
   def applies_to(self, string):
     return string[-1] == 'r' or string[-1] == 's'
   
   def apply(self, string):
-    string[-1] = 'H'
-
-    return string
+    return string[:-1] + 'H'

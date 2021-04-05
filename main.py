@@ -34,6 +34,9 @@ def encode_user_input(string):
   return string
 
 def do_external_sandhi(string):
+  '''
+  Applies external sandhi on a string.
+  '''
   string = decode_user_input(string)
 
   tokens = string.split(' ')
@@ -58,7 +61,7 @@ def do_external_sandhi(string):
 
     string = accumulator
 
-  string_end_rule = RAndSBecomeVisarga()
+  string_end_rule = FinalRAndSBecomeVisarga()
   if string and string_end_rule.applies_to(string):
     string = string_end_rule.apply(string)
 
