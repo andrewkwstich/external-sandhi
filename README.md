@@ -86,7 +86,7 @@ When using unit tests of the form
 ```
 assert RULE.applies_to('...'), '...'
 ```
-, use non-standard input.
+, use decoded input (i.e., non-standard input with digraphs replaced by single characters; see `transliteration.py` for digraph decodings).
 
 # Requirements
 This program has been tested in Python 3.8. Note that the inclusion of IAST characters may cause some environments to throw an encoding error.
