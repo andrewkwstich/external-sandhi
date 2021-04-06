@@ -323,11 +323,11 @@ assert not RULE.applies_to('iH ja'), 'VisargaPOAAssimilation applies_to iH ca fa
 
 RULE = Buccalization()
 assert RULE.applies_to('ip ha'), 'Buccalization applies_to ip ha failed'
-unittest(do_external_sandhi('ip ha'), 'ib bha', 'Debuccaliation apply ip ha failed')
+unittest(do_external_sandhi('ip ha'), 'ib bha', 'Buccalization apply ip ha failed')
 assert RULE.applies_to('ib ha'), 'Buccalization applies_to ib ha failed'
-unittest(do_external_sandhi('ib ha'), 'ib bha', 'Debuccaliation apply ib ha failed')
+unittest(do_external_sandhi('ib ha'), 'ib bha', 'Buccalization apply ib ha failed')
 assert RULE.applies_to('it ha'), 'Buccalization applies_to it ha failed'
-unittest(do_external_sandhi('it ha'), 'id dha', 'Debuccaliation apply it ha failed')
+unittest(do_external_sandhi('it ha'), 'id dha', 'Buccalization apply it ha failed')
 assert not RULE.applies_to('iH ha'), 'Buccalization applies_to iH ha failed'
 
 
