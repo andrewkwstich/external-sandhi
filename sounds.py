@@ -19,7 +19,7 @@ FRONT = 'front'
 DIPH = 'diphthong'
 
 '''The SOUNDS dictionary associates each Sanskrit sound with the features it contains.
-Keys are written in decoded form (see the list called 'transliteration' in main.py for reference.
+Keys are written in decoded form (see transliteration.py for reference).
 '''
 SOUNDS = {
 'k':[VEL],

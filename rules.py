@@ -454,7 +454,7 @@ class Anusvara(Rule):
 
 class PalatalizationBeforeZ(Rule):
   '''If the first word ends with a dental and the second word begins with the palatal fricative 'z' (IAST 'ś'), the dental is replaced
-  with its palatal equivalent and the 'z' with 'ch' (coded as 'w'). This rule must apply before ConsonantVoicing.
+  with its palatal equivalent and the 'z' with 'ch' (coded as 'w').
   '''
   def applies_to(self, pair):
     tokens = pair.split(' ')

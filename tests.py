@@ -132,8 +132,8 @@ unittest(do_external_sandhi('kSudram hRdayadaurbalyam tyaktvA uttiSTha paraMtapa
 
 '''
 Below are unit tests for pairs of words for each rule.
-When creating your own unit tests for applies_to rules, make sure to use encoded input (see the dictionary called 'transliteration'
-in main.py). For example, use '@' instead of 'ai'.
+When creating your own unit tests for applies_to rules, make sure to use decoded input (see transliteration.py for reference).
+For example, use '@' instead of 'ai'.
 '''
 
 RULE = Prazlista()
@@ -256,12 +256,12 @@ unittest(do_external_sandhi('at ba'), 'ad ba', 'ConsonantVoicing apply iH at fai
 assert not RULE.applies_to('at pa'), 'ConsonantVoicing applies_to at ba failed'
 
 RULE = CompensatoryLengthening()
-assert RULE.applies_to('iH ra'), 'CompensatoryLengthening applies_to diH ra failed'
-unittest(do_external_sandhi('iḥ ra', IAST), 'ī ra', 'CompensatoryLengthening apply diH ra failed')
-assert RULE.applies_to('uH ra'), 'CompensatoryLengthening applies_to duH ra failed'
+assert RULE.applies_to('iH ra'), 'CompensatoryLengthening applies_to iH ra failed'
+unittest(do_external_sandhi('iḥ ra', IAST), 'ī ra', 'CompensatoryLengthening apply iH ra failed')
+assert RULE.applies_to('uH ra'), 'CompensatoryLengthening applies_to uH ra failed'
 unittest(do_external_sandhi('uH ra'), 'U ra', 'CompensatoryLengthening apply iH ra failed')
-assert not RULE.applies_to('aH ra'), 'CompensatoryLengthening applies_to daH ra failed'
-assert not RULE.applies_to('iH ba'), 'CompensatoryLengthening applies_to diH ba failed'
+assert not RULE.applies_to('aH ra'), 'CompensatoryLengthening applies_to aH ra failed'
+assert not RULE.applies_to('iH ba'), 'CompensatoryLengthening applies_to iH ba failed'
 
 RULE = Nasalization()
 assert RULE.applies_to('it na'), 'Nasalization applies_to it na failed'
