@@ -12,7 +12,7 @@ consists of the following underlying words before external sandhi is applied:
 <b> sahasā eva abhyahanyanta sa śabdaḥ tumulaḥ abhavat. </b>
 
 ## What is this Project for?
-This program allows the user to experiment with external sandhi rules in Sanskrit: it transforms an input string of underlying words (with no limit on string length) into an output string in which all the rules have been applied. It is most useful as an aid in writing Sanskrit, but can also be used to test possible underlying strings when a difficult passage (such as the one quoted above) is encountered.
+This program allows the user to experiment with external sandhi rules in Sanskrit: it transforms an input string of underlying words (with no limit on the number of words) into an output string in which all the rules have been applied. It is most useful as an aid in writing Sanskrit, but can also be used to test possible underlying strings when a difficult passage (such as the one quoted above) is encountered.
 
 ## What are the Rules of External Sandhi?
 Tables from a Sanskrit handbook, depicting the outputs of external sandhi, have been uploaded to OneDrive:
