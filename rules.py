@@ -115,8 +115,6 @@ class Gliding(Rule):
     tokens = pair.split(' ')
     first_phoneme = tokens[0][-1]
 
-    assert first_phoneme in HIGH_VOWELS or first_phoneme == 'R', 'Last phoneme of first word should be i, I, u, U, or vocalic R'
-
     if first_phoneme.lower() == 'i':
       return tokens[0][:-1] + 'y ' + tokens[1]  # A space is conventionally left in Sanskrit romanizations
 
@@ -146,10 +144,6 @@ class NucleusTensing(Rule):
     pair = super().apply(pair)
     tokens = pair.split(' ')
 
-    first_phoneme = tokens[0][-1]
-
-    assert first_phoneme == '@', 'Last phoneme of first word should be ai (encoded as @)'
-
     return tokens[0][:-1] + 'A ' + tokens[1]
 
 
@@ -174,10 +168,7 @@ class LongMidMonophthongs(Rule):
     pair = super().apply(pair)
     tokens = pair.split(' ')
 
-    first_phoneme = tokens[0][-1]
     second_phoneme = tokens[1][0]
-
-    assert first_phoneme == 'e' or first_phoneme == 'o', 'Last phoneme of first word should be e or o'
 
     if second_phoneme == 'a':
       return tokens[0] + ' \'' + tokens[1][1:]  # An apostrophe is conventionally inserted in romanization
@@ -203,10 +194,6 @@ class DiphthongGliding(Rule):
   def apply(self, pair):
     pair = super().apply(pair)
     tokens = pair.split(' ')
-
-    first_phoneme = tokens[0][-1]
-
-    assert first_phoneme == '$', 'Last phoneme of first word should be au (encoded as $)'
 
     return tokens[0][:-1] + 'Av' + tokens[1]
 
@@ -235,8 +222,6 @@ class Diphthongization(Rule):
     tokens = pair.split(' ')
 
     second_phoneme = tokens[1][0]
-
-    assert second_phoneme in FRONT_VOWELS or second_phoneme in BACK_VOWELS, 'Phoneme should be a front vowel or a back vowel'
 
     if second_phoneme.lower() == 'i':
       return tokens[0][:-1] + 'e' + tokens[1][1:]
@@ -297,8 +282,6 @@ class LowVowelBeforeVisarga(Rule):
 
     first_phoneme = tokens[0][-2]
     third_phoneme = tokens[1][0]
-
-    assert first_phoneme.lower() == 'a', 'The second last phoneme of the first word should be A or a'
 
     if first_phoneme == 'A':
       return tokens[0][:-1] + ' ' + tokens[1]
