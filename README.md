@@ -81,10 +81,10 @@ All unit tests successful
 ```
 will be printed.
 
-When testing functions of the form
+When using unit tests of the form
 
 ```
-assert RULE.applies_to(...)
+assert RULE.applies_to('...'), '...'
 ```
 , use non-standard input.
 
