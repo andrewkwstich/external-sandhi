@@ -57,7 +57,7 @@ unittest(do_external_sandhi('tataH zaGkhAH ca bheryAH ca paNavAnakagomukhAH'), '
 unittest(do_external_sandhi('sahasA eva abhyahanyanta sa zabdaH tumulaH abhavat'), 'sahasaivAbhyahanyanta sa zabdas tumulo \'bhavat', 'Line 13, 2 failed')
 unittest(do_external_sandhi('tataH zvetaiH hayaiH yukte mahati syandane sthitau'), 'tataH zvetair hayair yukte mahati syandane sthitau', 'Line 14, 1 failed')
 unittest(do_external_sandhi('mAdhavaH pANDavaH ca eva divyau zaGkhau pradadhmatuH'), 'mAdhavaH pANDavaz caiva divyau zaGkhau pradadhmatuH', 'Line 14, 2 failed')
-unittest(do_external_sandhi('pAJcajanyam hRSIkezaH devadattam dhanaMjayah'), 'pAJcajanyaM hRSIkezo devadattaM dhanaMjayah', 'Line 15, 1 failed')
+unittest(do_external_sandhi('pAJcajanyam hRSIkezaH devadattam dhanaMjayaH'), 'pAJcajanyaM hRSIkezo devadattaM dhanaMjayaH', 'Line 15, 1 failed')
 unittest(do_external_sandhi('pauNDram dadhmau mahAzaGkham bhImakarmA vRkodaraH'), 'pauNDraM dadhmau mahAzaGkhaM bhImakarmA vRkodaraH', 'Line 15, 2 failed')
 unittest(do_external_sandhi('anantavijayam rAjA kuntiputraH yudhiSThiraH'), 'anantavijayaM rAjA kuntiputro yudhiSThiraH', 'Line 16, 1 failed')
 unittest(do_external_sandhi('nakulaH sahadevaH ca sughoSamaNipuSpakau'), 'nakulaH sahadevaz ca sughoSamaNipuSpakau', 'Line 16,2 failed')
