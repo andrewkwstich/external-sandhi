@@ -1,13 +1,16 @@
 from rules import *
 from main import do_external_sandhi
+from transliteration import IAST
 
 def unittest(actual, expected, msg):
   assert actual == expected, f'{msg}\nExpected: {expected}.\nGot: {actual}.'
 
 '''
-The first hundred tests are the first hundred lines from a Sanskrit text, the Bhagavad Gita
-An online version with IAST can be found at http://www.sanskritweb.net/sansdocs/gita-big.pdf
-Bear in mind the following equivalences:
+The first hundred tests are the first hundred half-lines from a Sanskrit text, the Bhagavad Gita.
+An online version written in IAST can be found at http://www.sanskritweb.net/sansdocs/gita-big.pdf
+The arguments to which do_external_sandhi is applied are strings consisting of the 'underlying' words, pre-sandhi;
+the output should match the text as seen.
+Bear in mind the following substitutions due to non-standard romanization:
 ā becomes A'
 ḍ becomes D
 ḥ becomes H
@@ -34,14 +37,14 @@ unittest(do_external_sandhi('pazya etAn pANDuputrANAm AcArya mahatIm camUm'), 'p
 unittest(do_external_sandhi('vyUDhAm drupadaputreNa tava ziSyeNa dhImatA'), 'vyUDhAM drupadaputreNa tava ziSyeNa dhImatA', 'Line 3,2 failed')
 unittest(do_external_sandhi('atra zUrAH maheSvAsAH bhImArjunasamAH yudhi'), 'atra zUrA maheSvAsA bhImArjunasamA yudhi', 'Line 4,1 failed')
 unittest(do_external_sandhi('yuyudhAnaH virATaH ca drupadaH ca mahArathaH'), 'yuyudhAno virATaz ca drupadaz ca mahArathaH', 'Line 4,2 failed')
-unittest(do_external_sandhi('dhRSTaketuH ca IkitAnaH kAzirAjaH ca vIryavAn'), 'dhRSTaketuz cekitAnaH kAzirAjaz ca vIryavAn', 'Line 5,1 failed')
+unittest(do_external_sandhi('dhRSTaketuH cekitAnaH kAzirAjaH ca vIryavAn'), 'dhRSTaketuz cekitAnaH kAzirAjaz ca vIryavAn', 'Line 5,1 failed')
 unittest(do_external_sandhi('purujit kuntibhojaH ca zaibyaH ca narapuMgavaH'), 'purujit kuntibhojaz ca zaibyaz ca narapuMgavaH', 'Line 5,2 failed')
 unittest(do_external_sandhi('yudhAmanyuH ca vikrAntaH uttamaujaH ca vIryavAn'), 'yudhAmanyuz ca vikrAnta uttamaujaz ca vIryavAn', 'Line 6,1 failed')
 unittest(do_external_sandhi('saubhadraH draupadeyAH ca sarve eva mahArathAH'), 'saubhadro draupadeyAz ca sarva eva mahArathAH', 'Line 6,2 failed')
 unittest(do_external_sandhi('asmAkam tu viziSTAH ye tAn nibodha dvijottama'), 'asmAkaM tu viziSTA ye tAn nibodha dvijottama', 'Line 7,1 failed')
 unittest(do_external_sandhi('nAyakAH mama sainyasya saMjJArtham tAn bravImi te'), 'nAyakA mama sainyasya saMjJArthaM tAn bravImi te', 'Line 7,2 failed')
 unittest(do_external_sandhi('bhavAn bhISmaH ca karNaH ca kRpaH ca samitiMjayaH'), 'bhavAn bhISmaz ca karNaz ca kRpaz ca samitiMjayaH', 'Line 8,1 failed')
-unittest(do_external_sandhi('azvatthAmA vikarnaH ca saumyadattiH tathA eva ca'), 'azvatthAmA vikarnaz ca saumyadattis tathaiva ca', 'Line 8,2 failed')
+unittest(do_external_sandhi('azvatthAmA vikarNaH ca saumyadattiH tathA eva ca'), 'azvatthAmA vikarNaz ca saumyadattis tathaiva ca', 'Line 8,2 failed')
 unittest(do_external_sandhi('anye ca bahavaH zUrAH madarthe tyaktajIvitAH'), 'anye ca bahavaH zUrA madarthe tyaktajIvitAH', 'Line 9,1 failed')
 unittest(do_external_sandhi('nAnAzastrapraharaNAH sarve yuddhavizAradAH'), 'nAnAzastrapraharaNAH sarve yuddhavizAradAH', 'Line 9,2 failed')
 unittest(do_external_sandhi('aparyAptam tat asmAkam balam bhISmAbhirakSitam'), 'aparyAptaM tad asmAkaM balaM bhISmAbhirakSitam', 'Line 10, 1 failed')
@@ -112,11 +115,11 @@ unittest(do_external_sandhi('saMkaraH narakAya eva kulaghnAnAm kulasya ca'), 'sa
 unittest(do_external_sandhi('patanti pitaraH hi eSAm luptapiNDodakakriyAH'), 'patanti pitaro hy eSAM luptapiNDodakakriyAH', 'Line 42,2 failed')
 unittest(do_external_sandhi('doSaiH etaiH kulaghAnAm varNasaMkarakArakaiH'), 'doSair etaiH kulaghAnAM varNasaMkarakArakaiH', 'Line 43,1 failed')
 unittest(do_external_sandhi('utsAdyante jAtidharmAH kuladharmAH ca zAzvatAH'), 'utsAdyante jAtidharmAH kuladharmAz ca zAzvatAH', 'Line 43,2 failed')
-unittest(do_external_sandhi('utsannakuladharmAnAm manuSyANAm janArdana'), 'utsannakuladharmAnAM manuSyANAM janArdana', 'Line 44,1 failed')
-unittest(do_external_sandhi('narake niyatam vasaH bhavati iti anuzuzruma'), 'narake niyataM vaso bhavatIty anuzuzruma', 'Line 44,2 failed')
+unittest(do_external_sandhi('utsannakuladharmANAm manuSyANAm janArdana'), 'utsannakuladharmANAM manuSyANAM janArdana', 'Line 44,1 failed')
+unittest(do_external_sandhi('narake niyatam vAsaH bhavati iti anuzuzruma'), 'narake niyataM vAso bhavatIty anuzuzruma', 'Line 44,2 failed')
 unittest(do_external_sandhi('aho bata mahat pApam kartum vyavasitAH vayam'), 'aho bata mahat pApaM kartuM vyavasitA vayam', 'Line 45,1 failed')
 unittest(do_external_sandhi('yat rAjyasukhalobhena hantum svajanam udyatAH'), 'yad rAjyasukhalobhena hantuM svajanam udyatAH', 'Line 45,2 failed')
-unittest(do_external_sandhi('yadi mAm apratikAram azastram zastrapANayaH'), 'yadi mAm apratikAram azastraM zastrapANayaH', 'Line 46,1 failed')
+unittest(do_external_sandhi('yadi mAm apratIkAram azastram zastrapANayaH'), 'yadi mAm apratIkAram azastraM zastrapANayaH', 'Line 46,1 failed')
 unittest(do_external_sandhi('dhArtarASTrAH raNe hanyuH tat me kSemataram bhavet'), 'dhArtarASTrA raNe hanyus tan me kSemataraM bhavet', 'Line 46,2 failed')
 unittest(do_external_sandhi('evam uktvA arjunaH saMkhye rathopasthe upAvizat'), 'evam uktvArjunaH saMkhye rathopastha upAvizat', 'Line 47,1 failed')
 unittest(do_external_sandhi('visRjya sazaram cApam zokasaMvignamAnasaH'), 'visRjya sazaraM cApaM zokasaMvignamAnasaH', 'Line 47,2 failed')
@@ -127,9 +130,11 @@ unittest(do_external_sandhi('anAryajuSTam asvargyam akIrtikaram arjuna'), 'anAry
 unittest(do_external_sandhi('klaibyam mA sma gamaH pArtha na etat tvayi upapadyate'), 'klaibyaM mA sma gamaH pArtha naitat tvayy upapadyate', 'Line 50,1 failed')
 unittest(do_external_sandhi('kSudram hRdayadaurbalyam tyaktvA uttiSTha paraMtapa'), 'kSudraM hRdayadaurbalyaM tyaktvottiSTha paraMtapa', 'Line 50,2 failed')
 
-#Below are unit tests for pairs of words for each rule.
-
-#Prazlista:
+'''
+Below are unit tests for pairs of words for each rule.
+When creating your own unit tests for applies_to rules, make sure to use encoded input (see the dictionary called 'transliteration'
+in main.py). For example, use '@' instead of 'ai'.
+'''
 
 RULE = Prazlista()
 assert RULE.applies_to('ta at'), 'Prazlista applies_to ta at failed'
@@ -144,18 +149,8 @@ assert RULE.applies_to('ti it'), 'Prazlista applies_to ti it failed'
 unittest(do_external_sandhi('ti it'), 'tIt', 'Prazlista apply ti it failed')
 assert RULE.applies_to('tI it'), 'Prazlista applies_to tI it failed'
 unittest(do_external_sandhi('tI it'), 'tIt', 'Prazlista apply tI it failed')
-assert RULE.applies_to('ti It'), 'Prazlista applies_to ti It failed'
-unittest(do_external_sandhi('ti It'), 'tIt', 'Prazlista apply ti it failed')
-assert RULE.applies_to('tI It'), 'Prazlista applies_to tI It failed'
-unittest(do_external_sandhi('tI It'), 'tIt', 'Prazlista apply tI It failed')
 assert RULE.applies_to('tu ut'), 'Prazlista applies_to tu ut failed'
 unittest(do_external_sandhi('tu ut'), 'tUt', 'Prazlista apply tu ut failed')
-assert RULE.applies_to('tU ut'), 'Prazlista applies_to tU ut failed'
-unittest(do_external_sandhi('tU ut'), 'tUt', 'Prazlista apply tU ut failed')
-assert RULE.applies_to('tu Ut'), 'Prazlista applies_to tu Ut failed'
-unittest(do_external_sandhi('tu Ut'), 'tUt', 'Prazlista apply tu Ut failed')
-assert RULE.applies_to('tU Ut'), 'Prazlista applies_to tU Ut failed'
-unittest(do_external_sandhi('tU Ut'), 'tUt', 'Prazlista apply tU Ut failed')
 assert not RULE.applies_to('ta it'), 'Prazlista applies_to ta it failed'
 assert not RULE.applies_to('ta ut'), 'Prazlista applies_to ta ut failed'
 assert not RULE.applies_to('tu it'), 'Prazlista applies_to tu it failed'
@@ -173,7 +168,7 @@ unittest(do_external_sandhi('tI at'), 'ty at', 'Gliding apply tI at failed')
 assert RULE.applies_to('tu at'), 'Gliding applies_to tu at failed'
 unittest(do_external_sandhi('tu at'), 'tv at', 'Gliding apply tu at failed')
 assert RULE.applies_to('tU at'), 'Gliding applies_to ti at failed'
-unittest(do_external_sandhi('tU at'), 'tv at', 'Gliding apply tU at failed')
+unittest(do_external_sandhi('tū at', IAST), 'tv at', 'Gliding apply tU at failed')
 assert RULE.applies_to('tR at'), 'Gliding applies_to tR at failed'
 unittest(do_external_sandhi('tR at'), 'tr at', 'Gliding apply tR at failed')
 assert not RULE.applies_to('ta at'), 'Gliding applies_to ta at failed'
@@ -182,7 +177,7 @@ assert not RULE.applies_to('tI It'), 'Gliding applies_to ta at failed'
 
 RULE = NucleusTensing()
 assert RULE.applies_to('t@ at'), 'NucleusTensing applies_to tai at failed'
-unittest(do_external_sandhi('t@ at'), 'tA at', 'NucleusTensing apply tai at failed')
+unittest(do_external_sandhi('tai at'), 'tA at', 'NucleusTensing apply tai at failed')
 assert not RULE.applies_to('t at'), 'NucleusTensing applies_to t at failed'
 assert not RULE.applies_to('t@ t'), 'NucleusTensing applies_to tai t failed'
 
@@ -200,5 +195,141 @@ assert not RULE.applies_to('t$ at'), 'LongMidMonophthongs applies_to tau at fail
 assert not RULE.applies_to('t at'), 'LongMidMonophthongs applies_to t at failed'
 assert not RULE.applies_to('te t'), 'LongMidMonophthongs applies_to tai at failed'
 
-#...
+RULE = DiphthongGliding()
+assert RULE.applies_to('t$ at'), 'DiphthongGliding applies_to tau at failed'
+unittest(do_external_sandhi('tau at'), 'tAvat', 'DiphthongGliding apply tau at failed')
+assert RULE.applies_to('t$ $t'), 'DiphthongGliding applies_to tau aut failed'
+unittest(do_external_sandhi('tau aut'), 'tAvaut', 'DiphthongGliding apply tau aut failed')
+assert RULE.applies_to('t$ @t'), 'DiphthongGliding applies_to tau ait failed'
+unittest(do_external_sandhi('tau ait'), 'tAvait', 'DiphthongGliding apply tau ait failed')
+assert RULE.applies_to('t$ At'), 'DiphthongGliding applies_to tau At failed'
+unittest(do_external_sandhi('tau At'), 'tAvAt', 'DiphthongGliding apply tau At failed')
+assert not RULE.applies_to('te at'), 'DiphthongGliding applies_to te at failed'
+assert not RULE.applies_to('t$ t'), 'DiphthongGliding applies_to tau t failed'
+assert not RULE.applies_to('t $t'), 'DiphthongGliding applies_to t aut failed'
 
+RULE = Diphthongization()
+assert RULE.applies_to('ta it'), 'Diphthongization applies_to ta it failed'
+unittest(do_external_sandhi('ta it'), 'tet', 'Diphthongization apply ta it failed')
+assert RULE.applies_to('tA it'), 'Diphthongization applies_to tA it failed'
+unittest(do_external_sandhi('tA it'), 'tet', 'Diphthongization apply tA it failed')
+assert RULE.applies_to('ta It'), 'Diphthongization applies_to ta It failed'
+unittest(do_external_sandhi('ta It'), 'tet', 'Diphthongization apply ta It failed')
+assert RULE.applies_to('ta ut'), 'Diphthongization applies_to ta ut failed'
+unittest(do_external_sandhi('ta ut'), 'tot', 'Diphthongization apply ta ut failed')
+assert RULE.applies_to('ta et'), 'Diphthongization applies_to ta et failed'
+unittest(do_external_sandhi('ta et'), 'tait', 'Diphthongization apply ta et failed')
+assert RULE.applies_to('ta ot'), 'Diphthongization applies_to ta ot failed'
+unittest(do_external_sandhi('ta ot'), 'taut', 'Diphthongization apply ta ot failed')
+assert RULE.applies_to('ta @t'), 'Diphthongization applies_to ta ait failed'
+unittest(do_external_sandhi('ta ait'), 'tait', 'Diphthongization apply ta ait failed')
+assert RULE.applies_to('ta $t'), 'Diphthongization applies_to ta aut failed'
+unittest(do_external_sandhi('ta aut'), 'taut', 'Diphthongization apply ta it failed')
+assert not RULE.applies_to('te at'), 'Diphthongization applies_to te at failed'
+
+
+RULE = RAndSBecomeVisarga()
+assert RULE.applies_to('manas a'), 'RAndSBecomeVisarga applies_to manas a failed'
+assert RULE.applies_to('manar a'), 'RAndSBecomeVisarga applies_to manar a failed'
+assert not RULE.applies_to('manat a'), 'RAndSBecomeVisarga applies_to manat a failed'
+
+RULE = LowVowelBeforeVisarga()
+assert RULE.applies_to('manaH at'), 'LowVowelBeforeVisarga applies_to manaH at failed'
+unittest(do_external_sandhi('manaH at'), 'mano \'t', 'LowVowelBeforeVisarga apply manaH at failed')
+assert RULE.applies_to('manAH at'), 'LowVowelBeforeVisarga applies_to manAH at failed'
+unittest(do_external_sandhi('manAH at'), 'manA at', 'LowVowelBeforeVisarga apply manAH at failed')
+assert RULE.applies_to('manaH ba'), 'LowVowelBeforeVisarga applies_to manaH ba failed'
+unittest(do_external_sandhi('manaH ba'), 'mano ba', 'LowVowelBeforeVisarga apply manaH ba failed')
+assert RULE.applies_to('manAH ba'), 'LowVowelBeforeVisarga applies_to manAH ba failed'
+unittest(do_external_sandhi('manAH ba'), 'manA ba', 'LowVowelBeforeVisarga apply manAH ba failed')
+assert RULE.applies_to('manaH it'), 'LowVowelBeforeVisarga applies_to manaH it failed'
+unittest(do_external_sandhi('manaH it'), 'mana it', 'LowVowelBeforeVisarga apply manaH it failed')
+assert RULE.applies_to('manAH it'), 'LowVowelBeforeVisarga applies_to manAH it failed'
+unittest(do_external_sandhi('manAH it'), 'manA it', 'LowVowelBeforeVisarga apply manAH it failed')
+assert not RULE.applies_to('maniH it'), 'LowVowelBeforeVisarga applies_to maniH it failed'
+
+RULE = ConsonantVoicing()
+assert RULE.applies_to('iH at'), 'ConsonantVoicing applies_to iH at failed'
+unittest(do_external_sandhi('iḥ at', IAST), 'ir at', 'ConsonantVoicing apply iH at failed')
+assert RULE.applies_to('at ba'), 'ConsonantVoicing applies_to at ba failed'
+unittest(do_external_sandhi('at ba'), 'ad ba', 'ConsonantVoicing apply iH at failed')
+assert not RULE.applies_to('at pa'), 'ConsonantVoicing applies_to at ba failed'
+
+RULE = CompensatoryLengthening()
+assert RULE.applies_to('iH ra'), 'CompensatoryLengthening applies_to diH ra failed'
+unittest(do_external_sandhi('iḥ ra', IAST), 'ī ra', 'CompensatoryLengthening apply diH ra failed')
+assert RULE.applies_to('uH ra'), 'CompensatoryLengthening applies_to duH ra failed'
+unittest(do_external_sandhi('uH ra'), 'U ra', 'CompensatoryLengthening apply iH ra failed')
+assert not RULE.applies_to('aH ra'), 'CompensatoryLengthening applies_to daH ra failed'
+assert not RULE.applies_to('iH ba'), 'CompensatoryLengthening applies_to diH ba failed'
+
+RULE = Nasalization()
+assert RULE.applies_to('it na'), 'Nasalization applies_to it na failed'
+unittest(do_external_sandhi('it na'), 'in na', 'Nasalization apply it na failed')
+assert RULE.applies_to('iT na'), 'Nasalization applies_to iT na failed'
+unittest(do_external_sandhi('iṭ na', IAST), 'iṇ na', 'Nasalization apply iT na failed')
+assert RULE.applies_to('ib na'), 'Nasalization applies_to ib na failed'
+unittest(do_external_sandhi('ib na'), 'im na', 'Nasalization apply ib na failed')
+assert not RULE.applies_to('it a'), 'Nasalization applies_to it a failed'
+assert not RULE.applies_to('it ta'), 'Nasalization applies_to it a failed'
+
+RULE = NasalGemination()
+assert RULE.applies_to('in a'), 'NasalGemination applies_to in a failed'
+unittest(do_external_sandhi('in a'), 'inn a', 'NasalGemination apply in a failed')
+assert RULE.applies_to('iG a'), 'NasalGemination applies_to iG a failed'
+unittest(do_external_sandhi('iG a'), 'iGG a', 'NasalGemination apply iG a failed')
+assert not RULE.applies_to('im a'), 'NasalGemination applies_to im a failed'
+
+RULE = Anusvara()
+assert RULE.applies_to('im ba'), 'Anusvara applies_to im ba failed'
+unittest(do_external_sandhi('im ba', IAST), 'iṃ ba', 'Anusvara apply in a failed')
+assert not RULE.applies_to('im a'), 'Anusvara applies_to im ba failed'
+
+RULE = PalatalizationBeforeZ()
+assert RULE.applies_to('it za'), 'PalatalizationBeforeZ applies_to it za failed'
+unittest(do_external_sandhi('it śa', IAST), 'ic cha', 'PalatalizationBeforeZ apply it za failed')
+assert RULE.applies_to('in za'), 'PalatalizationBeforeZ applies_to in za failed'
+unittest(do_external_sandhi('in za'), 'iJ za', 'PalatalizationBeforeZ apply it za failed')
+assert not RULE.applies_to('ik za'), 'PalatalizationBeforeZ applies_to ik za failed'
+assert not RULE.applies_to('it sa'), 'PalatalizationBeforeZ applies_to it sa failed'
+
+RULE = DentalLateralization()
+assert RULE.applies_to('it la'), 'DentalLateralization applies_to it la failed'
+unittest(do_external_sandhi('it la'), 'il la', 'DentalLateralization apply it la failed')
+assert RULE.applies_to('id la'), 'DentalLateralization applies_to id la failed'
+unittest(do_external_sandhi('id la'), 'il la', 'DentalLateralization apply id la failed')
+assert RULE.applies_to('in la'), 'DentalLateralization applies_to in la failed'
+unittest(do_external_sandhi('in la'), 'il la', 'DentalLateralization apply in la failed')
+assert not RULE.applies_to('ik la'), 'DentalLateralization applies_to ik la failed'
+
+RULE = DentalPOAAssimilation()
+assert RULE.applies_to('it ja'), 'DentalPOAAssimilation applies_to it ja failed'
+unittest(do_external_sandhi('it ja'), 'ij ja', 'DentalPOAAssimilation apply it ja failed')
+assert RULE.applies_to('id ja'), 'DentalPOAAssimilation applies_to id ja failed'
+unittest(do_external_sandhi('id ja'), 'ij ja', 'DentalPOAAssimilation apply id ja failed')
+assert RULE.applies_to('it Fa'), 'DentalPOAAssimilation applies_to it Tha failed'
+unittest(do_external_sandhi('it Tha'), 'iT Tha', 'DentalPOAAssimilation apply iT Tha failed')
+assert RULE.applies_to('in ca'), 'DentalPOAAssimilation applies_to in ca failed'
+unittest(do_external_sandhi('in ca'), 'iMz ca', 'DentalPOAAssimilation apply in ca failed')
+assert RULE.applies_to('in Ta'), 'DentalPOAAssimilation applies_to in Ta failed'
+unittest(do_external_sandhi('in Ta'), 'iMS Ta', 'DentalPOAAssimilation apply in Ta failed')
+assert not RULE.applies_to('ik ja'), 'DentalPOAAssimilation applies_to ik ja failed'
+assert not RULE.applies_to('in ja'), 'DentalPOAAssimilation applies_to ik ja failed'
+
+RULE = VisargaPOAAssimilation()
+assert RULE.applies_to('iH ca'), 'VisargaPOAAssimilation applies_to iH ca failed'
+unittest(do_external_sandhi('iḥ ca', IAST), 'iś ca', 'VisargaPOAAssimilation apply iz ca failed')
+assert not RULE.applies_to('iH ja'), 'VisargaPOAAssimilation applies_to iH ca failed'
+
+RULE = Buccalization()
+assert RULE.applies_to('ip ha'), 'Buccalization applies_to ip ha failed'
+unittest(do_external_sandhi('ip ha'), 'ib bha', 'Debuccaliation apply ip ha failed')
+assert RULE.applies_to('ib ha'), 'Buccalization applies_to ib ha failed'
+unittest(do_external_sandhi('ib ha'), 'ib bha', 'Debuccaliation apply ib ha failed')
+assert RULE.applies_to('it ha'), 'Buccalization applies_to it ha failed'
+unittest(do_external_sandhi('it ha'), 'id dha', 'Debuccaliation apply it ha failed')
+assert not RULE.applies_to('iH ha'), 'Buccalization applies_to iH ha failed'
+
+
+
+print ('All unit tests successful')

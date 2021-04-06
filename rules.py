@@ -1,6 +1,6 @@
 from sounds import *
 
-#Each of the below three functions is called in at least one rule manipulating the input string.
+# Each of the below three functions is called in at least one rule manipulating the input string.
 
 def poa_assimilate(consonant_1, consonant_2):
   '''
@@ -118,7 +118,7 @@ class Gliding(Rule):
     assert first_phoneme in HIGH_VOWELS or first_phoneme == 'R', 'Last phoneme of first word should be i, I, u, U, or vocalic R'
 
     if first_phoneme.lower() == 'i':
-      return tokens[0][:-1] + 'y ' + tokens[1] #A space is conventionally left in Sanskrit romanizations
+      return tokens[0][:-1] + 'y ' + tokens[1]  # A space is conventionally left in Sanskrit romanizations
 
     if first_phoneme == 'R':
       return tokens[0][:-1] + 'r ' + tokens[1]
@@ -180,7 +180,7 @@ class LongMidMonophthongs(Rule):
     assert first_phoneme == 'e' or first_phoneme == 'o', 'Last phoneme of first word should be e or o'
 
     if second_phoneme == 'a':
-      return tokens[0] + ' \'' + tokens[1][1:] #An apostrophe is conventionally inserted in romanization
+      return tokens[0] + ' \'' + tokens[1][1:]  # An apostrophe is conventionally inserted in romanization
 
     return tokens[0][:-1] + 'a ' + tokens[1]
 
@@ -276,6 +276,7 @@ class LowVowelBeforeVisarga(Rule):
   Applies when the first word ends with 'a' or 'A' (IAST ā) followed by the sound called 'visarga', H (IAST 'ḥ'), and the second word
   starts with a voiced sound (consonant or vowel). If that voiced sound is a vowel other than 'a', the 'H' is deleted. Otherwise,
   'AH' becomes 'A' or 'aH' becomes 'o'; additionally, in the latter case, the voiced sound is replaced with an apostrophe if it is 'a'.
+  This rule must apply before ConsonantVoicing and after RAndSBecomeVisarga.
   '''
   def applies_to(self, pair):
     tokens = pair.split(' ')
@@ -352,7 +353,9 @@ class ConsonantVoicing(Rule):
 
 class CompensatoryLengthening(Rule):
   '''If the second last letter of the first word ends in 'i' or 'u', the last letter is 'H' or 'r', and the first letter of the 
-  second word is 'r', the last letter of the first word is deleted and the preceding vowel is lengthened.'''
+  second word is 'r', the last letter of the first word is deleted and the preceding vowel is lengthened.
+  Rule must apply before ConsonantVoicing and after NasalGemination.
+  '''
 
   def applies_to(self, pair):
     tokens = pair.split(' ')
@@ -365,8 +368,8 @@ class CompensatoryLengthening(Rule):
     third_phoneme = tokens[1][0]
 
     if second_phoneme == 'H':
+      # The rule given in the source contradicts itself about what happens to 'aH r'; other sources give that it returns 'o r'
       return first_phoneme in SHORT_VOWELS and first_phoneme != 'a' and third_phoneme == 'r'
-         #The rule given in the source contradicts itself about what happens to 'aH r'; other sources give that it returns 'o r'
     return False
 
   def apply(self, pair):
@@ -451,7 +454,7 @@ class Anusvara(Rule):
 
 class PalatalizationBeforeZ(Rule):
   '''If the first word ends with a dental and the second word begins with the palatal fricative 'z' (IAST 'ś'), the dental is replaced
-  with its palatal equivalent and the 'z' with 'ch' (coded as 'w').
+  with its palatal equivalent and the 'z' with 'ch' (coded as 'w'). This rule must apply before ConsonantVoicing.
   '''
   def applies_to(self, pair):
     tokens = pair.split(' ')
@@ -462,7 +465,7 @@ class PalatalizationBeforeZ(Rule):
     first_phoneme = tokens[0][-1]
     second_phoneme = tokens[1][0]
 
-    return first_phoneme in DENTALS and second_phoneme == 'z'
+    return first_phoneme in DENTALS and  second_phoneme == 'z'
 
   def apply(self, pair):
     pair = super().apply(pair)
@@ -496,7 +499,7 @@ class DentalLateralization(Rule):
 
     return tokens[0][:-1] + 'l ' + tokens[1]
 
-class DentalPOAAssimilation(Rule): #as written, has to apply after consonant_voicing
+class DentalPOAAssimilation(Rule):
   '''
   If the first word ends with a dental other than 'n' and the second word starts with a coronal stop, the Place of Articulation
   of the dental assimilates to that of the stop. If the dental is 'n', it is replaced with 'M' + the fricative with the same
@@ -541,8 +544,8 @@ class DentalPOAAssimilation(Rule): #as written, has to apply after consonant_voi
 
 class VisargaPOAAssimilation(Rule):
   '''
-  If the first word ends with 'H' (IAST ḥ) or 'r' and the second word starts with a coronal stop, the Place of Articulation of 'H'
-  or 'r' changes to that of the following stop.
+  If the first word ends with 'H' (IAST ḥ) and the second word starts with a coronal stop, the Place of Articulation of 'H'
+  changes to that of the following stop.
   '''
   def applies_to(self, pair):
     tokens = pair.split(' ')
@@ -553,7 +556,7 @@ class VisargaPOAAssimilation(Rule):
     first_phoneme = tokens[0][-1]
     second_phoneme = tokens[1][0]
 
-    return first_phoneme == 'H' and second_phoneme in CORONALS and second_phoneme in STOPS
+    return first_phoneme == 'H' and second_phoneme in CORONALS and second_phoneme in STOPS and second_phoneme not in VOICED
 
   def apply(self, pair):
     pair = super().apply(pair)
@@ -563,7 +566,7 @@ class VisargaPOAAssimilation(Rule):
 
     return tokens[0][:-1] + poa_assimilate('H', second_phoneme) + ' ' + tokens[1]
 
-class Debuccalization(Rule):
+class Buccalization(Rule):
   '''
   If the first word ends with a stop and the second word begins with 'h', the 'h' becomes the aspirated equivalent of the stop.
   '''
@@ -600,7 +603,7 @@ class Debuccalization(Rule):
 
     return tokens[0] + ' ' + second_phoneme + tokens[1][1:]
 
-Rules = [
+RULES = [
   Prazlista(),
   DiphthongGliding(),
   Diphthongization(),
@@ -609,20 +612,21 @@ Rules = [
   Gliding(),
   RAndSBecomeVisarga(),
   LowVowelBeforeVisarga(),
-  CompensatoryLengthening(),
   NasalGemination(),
   Anusvara(),
   PalatalizationBeforeZ(),
   DentalLateralization(),
+  CompensatoryLengthening(),
   ConsonantVoicing(),
   DentalPOAAssimilation(),
   Nasalization(),
   VisargaPOAAssimilation(),
-  Debuccalization()
+  Buccalization(),
 ]
 
 class FinalRAndSBecomeVisarga:
-  '''A final R or S and the end of a string becomes visarga.
+  '''
+  A final R or S at the end of a string becomes visarga.
   '''
   def applies_to(self, string):
     return string[-1] == 'r' or string[-1] == 's'

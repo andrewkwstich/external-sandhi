@@ -1,3 +1,5 @@
+# The below global variables are assigned to strings describing features of phonemes.
+
 VOI = 'voiced'
 VEL = 'velar'
 PAL = 'palatal'
@@ -15,6 +17,10 @@ LOW = 'low'
 BACK = 'back'
 FRONT = 'front'
 DIPH = 'diphthong'
+
+'''The SOUNDS dictionary associates each Sanskrit sound with the features it contains.
+Keys are written in decoded form (see the list called 'transliteration' in main.py for reference.
+'''
 SOUNDS = {
 'k':[VEL],
 'f':[VEL, ASP],
@@ -64,6 +70,7 @@ SOUNDS = {
 'R':[RET, VOI],
 '#': [RET, VOI, LONG]
 }
+
 CONSONANTS = ['k', 'f', 'g', 'q', 'c', 'w', 'j', 'x', 'T', 'F', 'D', 'Q', 't', 'W', 'd', 'X', 'p', '&', 'b', '^', 'G', 'J', 'N', 'n', 'm', 'M', 'y', 'r', 'l', 'v', 'H', 'z', 'S', 's', 'h']
 
 VOWELS = ['i', 'I', 'u', 'U', 'a', 'A', 'e', 'o', '@', '$', 'R', '#']
@@ -130,6 +137,11 @@ for k, v in SOUNDS.items():
 SHORT_VOWELS = ['a', 'i', 'u']
 
 DIPHTHONGS = ['@', '$']
+
+'''
+CPLACE and VPLACE give the possible Places of Articulation for consonants and vowels, respectively.
+'Place of Articulation' refers to where the tongue or lips have to be to produce a given sound.
+'''
 
 CPLACE = [VEL, PAL, RET, DEN, LAB, GLOT]
 VPLACE = [HIGH, LOW, BACK, FRONT, RET]
